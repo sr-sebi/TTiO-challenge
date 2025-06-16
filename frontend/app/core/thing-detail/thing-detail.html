@@ -1,0 +1,31 @@
+<h2>{{ thing.name }} (ID: {{ thing.id }})</h2>
+<p>Created at: {{ thing.createdAt | date:'medium' }}</p>
+
+<h3>Update Thing</h3>
+<form ng-submit="updateThing()">
+  <label>Name:</label>
+  <input type="text" ng-model="updatedThing.name" required />
+  <br>
+  <button type="submit">Update</button>
+</form>
+
+<h3>Telemetry Data</h3>
+<ul>
+  <li ng-repeat="data in telemetry">
+    {{ data.timestamp | date:'short' }} - {{ data.variable }}: {{ data.value }}
+  </li>
+</ul>
+
+<h3>Añadir nuevo dato telemétrico</h3>
+<form ng-submit="addTelemetry()">
+  <label>Variable:</label>
+  <input type="text" ng-model="newTelemetry.variable" required />
+  <br>
+  <label>Valor:</label>
+  <input type="number" ng-model="newTelemetry.value" required />
+  <br>
+  <label>Timestamp:</label>
+  <input type="datetime-local" ng-model="newTelemetry.timestamp" />
+  <br>
+  <button type="submit">Añadir dato</button>
+</form>

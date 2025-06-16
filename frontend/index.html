@@ -1,0 +1,42 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <title>My AngularJS App</title>
+  <base href="/">
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-route.min.js"></script>
+
+  <!-- Core -->
+  <script src="app/core/core.module.js"></script>
+
+  <!-- Thing Card -->
+  <script src="app/core/thing-card/thing-card.module.js"></script>
+  <script src="app/core/thing-card/thing-card.component.js"></script>
+  <script src="app/core/thing-card/thing-card.controller.js"></script>
+
+  <!-- Thing List -->
+  <script src="app/core/thing-list/thing-list.module.js"></script>
+  <script src="app/core/thing-list/thing-list.controller.js"></script>
+
+  <!-- Thing Detail -->
+  <script src="app/core/thing-detail/thing-detail.module.js"></script>
+  <script src="app/core/thing-detail/thing-detail.controller.js"></script>
+
+  <!-- Servicios -->
+  <script src="app/api.service.js"></script>
+
+  <!-- Main app -->
+  <script src="app/app.js"></script>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="app/app.css">
+</head>
+<body>
+  <div ng-view></div>
+</body>
+</html>

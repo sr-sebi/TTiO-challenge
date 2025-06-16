@@ -1,0 +1,18 @@
+<div class="dashboard-card" ng-click="$ctrl.goToDetail()" style="cursor:pointer;">
+  <div class="card-header">
+    <h3>{{$ctrl.thing.name}}</h3>
+    <p class="thing-id">ID: {{$ctrl.thing.id}}</p>
+  </div>
+
+  <div class="card-body" ng-if="$ctrl.latestTelemetry && $ctrl.latestTelemetry.length > 0">
+    <div class="telemetry-item" ng-repeat="telemetry in $ctrl.latestTelemetry">
+      <p class="telemetry-value">{{ telemetry.value }}</p>
+      <p class="telemetry-label">{{ telemetry.variable }}</p>
+      <p class="timestamp">Actualizado: {{ telemetry.timestamp | date:'short' }}</p>
+    </div>
+  </div>
+
+  <div class="card-body" ng-if="!$ctrl.latestTelemetry || $ctrl.latestTelemetry.length === 0">
+    <p class="no-data">Sin datos de telemetría.</p>
+  </div>
+</div>
