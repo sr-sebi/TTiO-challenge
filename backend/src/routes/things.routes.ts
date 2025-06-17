@@ -3,7 +3,8 @@ import {
   getAllThings,
   getThingDetails,
   postThingData,
-  getThingVariableHistory
+  getThingVariableHistory,
+  updateThingConfig
 } from '../controllers/things.controller'
 
 const router = Router()
@@ -11,6 +12,7 @@ const router = Router()
 router.get('/', getAllThings)
 router.get('/:thingId', getThingDetails)
 router.post('/:thingId', postThingData)
+router.patch('/:thingId', updateThingConfig)
 router.get('/:thingId/:variable', getThingVariableHistory)
 
 export default router

@@ -29,9 +29,9 @@ export const getThingDetails = async (req: Request, res: Response, next: NextFun
 export const postThingData = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { thingId } = req.params
-    const { variable, value, timestamp } = req.body
+    const { variable, value } = req.body
 
-    if (!variable || value === undefined || !timestamp) {
+    if (!variable || value === undefined) {
       res.status(400).json({ error: 'Missing data fields' })
       return
     }
@@ -40,7 +40,6 @@ export const postThingData = async (req: Request, res: Response, next: NextFunct
       Number(thingId),
       variable,
       Number(value),
-      new Date(timestamp)
     )
 
     res.status(201).json(data)
@@ -55,7 +54,30 @@ export const getThingVariableHistory = async (req: Request, res: Response, next:
 
     const data = await ThingService.getTelemetryByVariable(Number(thingId), variable)
 
+    if (!data) {
+      res.status(404).json({ error: 'No data found for this variable' })
+      return
+    }
+
     res.json(data)
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const updateThingConfig = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { thingId } = req.params
+    const configData = req.body
+
+    if (!configData || !configData.threshold || !configData.samplingRate || !configData.mode) {
+      res.status(400).json({ error: 'Invalid configuration data' })
+      return
+    }
+
+    const updatedConfig = await ThingService.updateThingConfig(Number(thingId), configData)
+
+    res.json(updatedConfig)
   } catch (err) {
     next(err)
   }
