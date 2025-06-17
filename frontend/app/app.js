@@ -1,5 +1,6 @@
 angular.module('myApp', [
   'ngRoute',
+  'myApp.config',
   'myApp.core',
   'myApp.thingList',
   'myApp.thingDetail',

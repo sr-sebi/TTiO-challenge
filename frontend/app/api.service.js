@@ -1,6 +1,6 @@
 angular.module('myApp.core')
-  .factory('ApiService', ['$http', function($http) {
-    const baseUrl = 'http://localhost:4000/api';
+  .factory('ApiService', ['$http', 'ENV', function($http, ENV) {
+    const baseUrl = ENV.apiUrl;
 
     return {
       getThings: function() {
