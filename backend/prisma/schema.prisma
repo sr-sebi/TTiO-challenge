@@ -14,27 +14,52 @@ datasource db {
 }
 
 model Thing {
-  id          Int             @id @default(autoincrement())
-  name        String          @unique
-  createdAt   DateTime        @default(now())
-  telemetry   TelemetryData[]
-  config      ThingConfig?
-}
+  id         Int              @id @default(autoincrement())
+  name       String           @unique
+  createdAt  DateTime         @default(now())
 
-model TelemetryData {
-  id         Int         @id @default(autoincrement())
-  variable   String    
-  value      Float
-  timestamp  DateTime    @default(now())
-  thing      Thing       @relation(fields: [thingId], references: [id])
-  thingId    Int
+  config     ThingConfig?     @relation(fields: [configId], references: [id])
+  configId   Int?             @unique
+
+  telemetry  TelemetryData[]
 }
 
 model ThingConfig {
-  id            Int      @id @default(autoincrement())
-  threshold     Float
-  samplingRate  Int      
-  mode          String   
-  thing         Thing    @relation(fields: [thingId], references: [id])
-  thingId       Int      @unique
+  id         Int                 @id @default(autoincrement())
+  thing      Thing?              @relation
+  parameters ConfigParameter[]   
+  variables  TelemetryVariable[] 
+}
+
+// Possible config parameters for a Thing
+model ConfigParameter {
+  id         Int          @id @default(autoincrement())
+  key        String
+  value      String
+
+  config     ThingConfig  @relation(fields: [configId], references: [id], onDelete: Cascade)
+  configId   Int
+
+  @@unique([configId, key])
+}
+
+// Possible telemetry variables for a Thing
+model TelemetryVariable {
+  id         Int          @id @default(autoincrement())
+  name       String
+  
+  config     ThingConfig  @relation(fields: [configId], references: [id], onDelete: Cascade)
+  configId   Int
+
+  @@unique([configId, name])
+}
+
+model TelemetryData {
+  id         Int       @id @default(autoincrement())
+  variable   String
+  value      Float
+  timestamp  DateTime  @default(now())
+
+  thing      Thing     @relation(fields: [thingId], references: [id], onDelete: Cascade)
+  thingId    Int
 }

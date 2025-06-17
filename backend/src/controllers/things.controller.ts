@@ -3,8 +3,8 @@ import { ThingService } from '../services/thing.service'
 
 export const getAllThings = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const things = await ThingService.getAllThings()
-    res.json(things)
+    const data = await ThingService.getAllThings()
+    res.json(data)
   } catch (err) {
     next(err)
   }
@@ -26,6 +26,40 @@ export const getThingDetails = async (req: Request, res: Response, next: NextFun
   }
 }
 
+export const addConfigParameter = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { thingId } = req.params
+    const { key, value } = req.body
+
+    if (!key || value === undefined) {
+      res.status(400).json({ error: 'Key and value are required' })
+      return
+    }
+
+    const parameter = await ThingService.addConfigParameter(Number(thingId), key, String(value))
+    res.status(201).json(parameter)
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const addTelemetryVariable = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { thingId } = req.params
+    const { name } = req.body
+
+    if (!name) {
+      res.status(400).json({ error: 'Variable name is required' })
+      return
+    }
+
+    const variable = await ThingService.addTelemetryVariable(Number(thingId), name)
+    res.status(201).json(variable)
+  } catch (err) {
+    next(err)
+  }
+}
+
 export const postThingData = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { thingId } = req.params
@@ -36,12 +70,7 @@ export const postThingData = async (req: Request, res: Response, next: NextFunct
       return
     }
 
-    const data = await ThingService.createTelemetryData(
-      Number(thingId),
-      variable,
-      Number(value),
-    )
-
+    const data = await ThingService.createTelemetryData(Number(thingId), variable, Number(value))
     res.status(201).json(data)
   } catch (err) {
     next(err)
@@ -92,12 +121,22 @@ export const updateThingConfig = async (req: Request, res: Response, next: NextF
     const { thingId } = req.params
     const configData = req.body
 
-    if (!configData || !configData.threshold || !configData.samplingRate || !configData.mode) {
+    if (!configData || typeof configData !== 'object') {
       res.status(400).json({ error: 'Invalid configuration data' })
       return
     }
 
-    const updatedConfig = await ThingService.updateThingConfig(Number(thingId), configData)
+    const parameters = Object.entries(configData)
+      .filter(([key, value]) => key !== 'variables')
+      .map(([key, value]) => ({ key, value: String(value) }))
+
+    const variables = Array.isArray(configData.variables) ? configData.variables : []
+
+    const updatedConfig = await ThingService.updateThingConfig(
+      Number(thingId),
+      parameters,
+      variables
+    )
 
     res.json(updatedConfig)
   } catch (err) {

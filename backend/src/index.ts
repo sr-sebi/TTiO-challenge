@@ -45,9 +45,9 @@ app.use(errorHandler)
 
 setInterval(async () => {
   try {
-    const allThingsTelemetry = await ThingService.getAllThingsTelemetry()
+    const allThingsTelemetry = await ThingService.getAllThings()
     io.emit('thingUpdated', allThingsTelemetry)
-    console.log('📡 Emitted thingsTelemetryUpdated:', allThingsTelemetry)
+    console.log('📡 Emitted thingsTelemetryUpdated:', new Date())
   } catch (error) {
     console.error('Error fetching telemetry:', error)
   }

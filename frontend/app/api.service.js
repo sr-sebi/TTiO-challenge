@@ -15,8 +15,17 @@ angular.module('myApp.core')
       addTelemetryData: function(id, telemetryData) {
         return $http.post(`${baseUrl}/things/${id}/telemetry`, telemetryData);
       },
+      addSimpleTelemetryData: function(id, data) {
+        return $http.post(`${baseUrl}/things/${id}`, data);
+      },
       updateThingConfig: function(id, newConfig) {
         return $http.patch(`${baseUrl}/things/${id}`, newConfig);
       },
+      addConfigParameter: function(id, parameter) {
+        return $http.post(`${baseUrl}/things/${id}/config/parameter`, parameter);
+      },
+      addTelemetryVariable: function(id, variable) {
+        return $http.post(`${baseUrl}/things/${id}/config/variable`, variable);
+      }
     };
   }]);
