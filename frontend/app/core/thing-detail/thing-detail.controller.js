@@ -65,12 +65,9 @@ angular.module('myApp.thingDetail')
 
       ApiService.addTelemetryData(id, $scope.newTelemetry).then(function() {
         alert('Telemetric data added');
-
-        // Si se está mostrando el gráfico de esa variable, recargarlo
         if ($scope.selectedVariable === $scope.newTelemetry.variable) {
           $scope.loadVariableGraph();
         }
-
         $scope.newTelemetry = {};
       });
     };

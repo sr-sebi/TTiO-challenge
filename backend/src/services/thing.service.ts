@@ -124,7 +124,7 @@ export class ThingService {
         variable
       },
       orderBy: {
-        timestamp: 'desc'
+        timestamp: 'asc'
       }
     })
   }
