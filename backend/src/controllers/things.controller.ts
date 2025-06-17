@@ -48,6 +48,28 @@ export const postThingData = async (req: Request, res: Response, next: NextFunct
   }
 }
 
+export const postThingTelemetry = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { thingId } = req.params
+    const telemetryData = req.body
+
+    if (!telemetryData || !telemetryData.variable || telemetryData.value === undefined) {
+      res.status(400).json({ error: 'Invalid telemetry data' })
+      return
+    }
+
+    const data = await ThingService.createTelemetryData(
+      Number(thingId),
+      telemetryData.variable,
+      Number(telemetryData.value),
+    )
+
+    res.status(201).json(data)
+  } catch (err) {
+    next(err)
+  }
+}
+
 export const getThingVariableHistory = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { thingId, variable } = req.params
