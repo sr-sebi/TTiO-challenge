@@ -9,14 +9,14 @@ angular.module('myApp.core')
       getThingById: function(id) {
         return $http.get(`${baseUrl}/things/${id}`);
       },
-      getThingTelemetry: function(id) {
-        return $http.get(`${baseUrl}/things/${id}/telemetry`);
-      },
-      updateThing: function(id, data) {
-        return $http.put(`${baseUrl}/things/${id}`, data);
+      getThingVariableHistory: function(thingId, variable) {
+        return $http.get(`${baseUrl}/things/${thingId}/${variable}`);
       },
       addTelemetryData: function(id, telemetryData) {
         return $http.post(`${baseUrl}/things/${id}/telemetry`, telemetryData);
-      }
+      },
+      updateThingConfig: function(id, newConfig) {
+        return $http.patch(`${baseUrl}/things/${id}`, newConfig);
+      },
     };
   }]);
