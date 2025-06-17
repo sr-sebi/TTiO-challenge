@@ -60,13 +60,12 @@ export class ThingService {
     })
   }
 
-  static async createTelemetryData(thingId: number, variable: string, value: number, timestamp: Date) {
+  static async createTelemetryData(thingId: number, variable: string, value: number) {
     return prisma.telemetryData.create({
       data: {
         thingId,
         variable,
         value,
-        timestamp,
       }
     })
   }
