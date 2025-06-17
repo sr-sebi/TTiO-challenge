@@ -60,23 +60,6 @@ export const addTelemetryVariable = async (req: Request, res: Response, next: Ne
   }
 }
 
-export const postThingData = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { thingId } = req.params
-    const { variable, value } = req.body
-
-    if (!variable || value === undefined) {
-      res.status(400).json({ error: 'Missing data fields' })
-      return
-    }
-
-    const data = await ThingService.createTelemetryData(Number(thingId), variable, Number(value))
-    res.status(201).json(data)
-  } catch (err) {
-    next(err)
-  }
-}
-
 export const postThingTelemetry = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { thingId } = req.params
