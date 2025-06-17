@@ -51,9 +51,18 @@ angular.module('myApp.thingDetail')
     };
 
     $scope.updateConfig = function() {
-      ApiService.updateThingConfig(id, $scope.config).then(function(response) {
+      const configObject = {};
+      $scope.parameters.forEach(param => {
+        configObject[param.key] = param.value;
+      });
+    
+      ApiService.updateThingConfig(id, configObject).then(function(response) {
         $scope.config = response.data;
+        $scope.parameters = angular.copy($scope.config.parameters || []);
+    
         alert('Configuration updated successfully');
+      }).catch(() => {
+        alert('Error updating configuration');
       });
     };
 

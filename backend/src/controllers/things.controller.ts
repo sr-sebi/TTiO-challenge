@@ -110,15 +110,11 @@ export const updateThingConfig = async (req: Request, res: Response, next: NextF
     }
 
     const parameters = Object.entries(configData)
-      .filter(([key, value]) => key !== 'variables')
       .map(([key, value]) => ({ key, value: String(value) }))
-
-    const variables = Array.isArray(configData.variables) ? configData.variables : []
 
     const updatedConfig = await ThingService.updateThingConfig(
       Number(thingId),
       parameters,
-      variables
     )
 
     res.json(updatedConfig)

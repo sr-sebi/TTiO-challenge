@@ -129,7 +129,7 @@ export class ThingService {
     })
   }
 
-  static async updateThingConfig(thingId: number, parameters: { key: string, value: string }[], variables: string[]) {
+  static async updateThingConfig(thingId: number, parameters: { key: string, value: string }[]) {
     let config = await prisma.thingConfig.findFirst({ where: { thing: { id: thingId } } })
 
     if (!config) {
@@ -137,7 +137,6 @@ export class ThingService {
         data: {
           thing: { connect: { id: thingId } },
           parameters: { create: parameters.map(p => ({ key: p.key, value: p.value })) },
-          variables: { create: variables.map(name => ({ name })) },
         }
       })
     } else {
@@ -148,10 +147,17 @@ export class ThingService {
         where: { id: config.id },
         data: {
           parameters: { create: parameters.map(p => ({ key: p.key, value: p.value })) },
-          variables: { create: variables.map(name => ({ name })) },
         }
       })
     }
+
+    config = await prisma.thingConfig.findUnique({
+      where: { id: config.id },
+      include: {
+        parameters: true,
+        variables: true,
+      }
+    })
 
     return config
   }
