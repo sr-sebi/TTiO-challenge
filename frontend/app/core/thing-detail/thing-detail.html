@@ -7,7 +7,7 @@
     <label>Select variable to graph:</label>
     <select ng-model="selectedVariable" ng-change="loadVariableGraph()">
       <option value="" disabled selected>Select a variable</option>
-      <option ng-repeat="var in availableVariables" value="{{ var }}">{{ var }}</option>
+      <option ng-repeat="var in availableVariablesForGraph" value="{{ var }}">{{ var }}</option>
     </select>
 
     <div ng-if="graphData.timestamps.length">
