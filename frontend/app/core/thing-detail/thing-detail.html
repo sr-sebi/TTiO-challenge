@@ -20,18 +20,34 @@
       </canvas>
     </div>
 
-    <h3>Update config</h3>
+    <h3>Edit configuration</h3>
     <form ng-submit="updateConfig()">
-      <label>Threshold:</label>
-      <input type="number" ng-model="config.threshold" step="any" required />
-      <br>
-      <label>Sampling Rate:</label>
-      <input type="number" ng-model="config.samplingRate" step="any" required />
-      <br>
-      <label>Mode:</label>
-      <input type="text" ng-model="config.mode" required />
-      <br>
-      <button type="submit">Update configuration</button>
+      <div ng-repeat="param in parameters track by $index">
+        <label>{{ param.key }}</label>
+        <input type="text" ng-model="param.value" required />
+        <br><br>
+      </div>    
+      <button type="submit">Save changes</button>
+    </form>
+    
+    <hr>
+    
+    <h3>Add new parameter</h3>
+    <form ng-submit="addParameter()">
+      <label>Key:</label>
+      <input type="text" ng-model="newParameter.key" placeholder="Parameter key" required />
+      <label>Value:</label>
+      <input type="text" ng-model="newParameter.value" placeholder="Parameter value" required />
+      <button type="submit">Add parameter</button>
+    </form>
+    
+    <hr>
+    
+    <h3>Add new telemetry variable</h3>
+    <form ng-submit="addVariable()">
+      <label>Name:</label>
+      <input type="text" ng-model="newVariable.name" placeholder="Variable name" required />
+      <button type="submit">Add variable</button>
     </form>
 
     <h3>Add new telemetric data</h3>
