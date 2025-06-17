@@ -26,6 +26,8 @@ angular.module('myApp.thingDetail')
       if (Array.isArray($scope.thing.telemetry)) {
         const variableSet = new Set($scope.thing.telemetry.map(entry => entry.variable));
         $scope.availableVariables = Array.from(variableSet);
+        $scope.selectedVariable = $scope.availableVariables[0];
+        $scope.loadVariableGraph();
       }
     });
 
