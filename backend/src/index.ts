@@ -43,7 +43,7 @@ app.use('/api', routes)
 
 app.use(errorHandler)
 
-/* setInterval(async () => {
+setInterval(async () => {
   try {
     const allThingsTelemetry = await ThingService.getAllThings()
     io.emit('thingUpdated', allThingsTelemetry)
@@ -51,7 +51,7 @@ app.use(errorHandler)
   } catch (error) {
     console.error('Error fetching telemetry:', error)
   }
-}, 1000) */
+}, 1000)
 
 httpServer.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
