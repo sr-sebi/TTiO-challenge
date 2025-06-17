@@ -1,13 +1,44 @@
-# TTiO technical test - Backend
+# 🧠 TTiO Technical Test – Backend
 
-## Dependencies
+This is the backend API for the TTiO application. It provides a REST API to manage devices ("Things"), their configurations, and associated telemetry data. It also uses **WebSockets (Socket.io)** to deliver **real-time data updates**.
 
-- NodeJs
-- TypeScript
-- Express
-- Morgan - To allow server logging
-- Socket.io
-- Prisma - For database ORM
+---
+
+## 📡 Available Endpoints
+
+- `GET /things`  
+  List all things (devices).
+
+- `GET /things/:thingId`  
+  Get details of a specific thing.
+
+- `POST /things/:thingId/telemetry`  
+  Create a new telemetry data entry.
+
+- `GET /things/:thingId/:variable`  
+  Retrieve the history of a specific variable (e.g., temperature, humidity).
+
+- `PATCH /things/:thingId`  
+  Update the configuration of a thing.
+
+- `POST /things/:thingId/config/parameter`  
+  Add an individual configuration parameter.
+
+- `POST /things/:thingId/config/variable`  
+  Add a new telemetry variable to the device.
+
+---
+
+## 📦 Main Dependencies
+
+- **Node.js**  
+- **TypeScript**  
+- **Express** – HTTP server  
+- **Morgan** – Request logging middleware  
+- **Socket.io** – Real-time communication  
+- **Prisma** – Database ORM
+
+---
 
 ## Running database with docker
 ```bash
@@ -27,4 +58,12 @@ $ npx prisma migrate dev --name init
 ## To seed the database
 ```bash
 $ npm run seed
+```
+
+## To execute the server
+
+Execute the commands above in order and serve
+
+```bash
+$ npm run dev
 ```
