@@ -25,7 +25,7 @@ model TelemetryData {
   id         Int         @id @default(autoincrement())
   variable   String    
   value      Float
-  timestamp  DateTime
+  timestamp  DateTime    @default(now())
   thing      Thing       @relation(fields: [thingId], references: [id])
   thingId    Int
 }
