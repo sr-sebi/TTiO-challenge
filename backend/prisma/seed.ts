@@ -95,6 +95,16 @@ async function main() {
       },
     })
 
+    const telemetryVariables = thing.telemetry.map(entry => entry.variable)
+    const uniqueVariables = Array.from(new Set(telemetryVariables))
+    
+    await prisma.telemetryVariable.createMany({
+      data: uniqueVariables.map(variable => ({
+        name: variable,
+        configId: createdConfig.id,
+      })),
+    })
+
     createdThings.push(createdThing)
   }
 
