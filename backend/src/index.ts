@@ -6,7 +6,7 @@ import { createServer } from 'node:http'
 import routes from './routes/routes'
 import { errorHandler } from './middlewares/errorHandler'
 import cors from 'cors'
-import { ThingService } from './services/thing.service'
+import { setupSocketServer } from './sockets/socketServer'
 
 const port = process.env.PORT || 4000
 
@@ -23,13 +23,7 @@ const io = new Server(httpServer,
   }
 )
 
-io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id)
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id)
-  })
-})
+setupSocketServer(io)
 
 app.use(logger('dev'))
 app.use(cors())
@@ -42,16 +36,6 @@ app.get('/', (req, res) => {
 app.use('/api', routes)
 
 app.use(errorHandler)
-
-setInterval(async () => {
-  try {
-    const allThingsTelemetry = await ThingService.getAllThings()
-    io.emit('thingUpdated', allThingsTelemetry)
-    console.log('📡 Emitted thingsTelemetryUpdated:', new Date())
-  } catch (error) {
-    console.error('Error fetching telemetry:', error)
-  }
-}, 1000)
 
 httpServer.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
